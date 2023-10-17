@@ -20,5 +20,5 @@ def getBoundingBox():
         top = posInfo.top + posInfo.height // 4 * 3 + 80
         bottom = top + posInfo.height // 4 - 80
         return (left, top, right, bottom)
-    else:
-        return None
+    
+    return None
