@@ -1,4 +1,4 @@
-# py-tts-the-murder-of-sonic-the-hedgehog
+# py-tts-sonic-the-hedgehog-2023
 
 This project provides a TTS layer for [The Murder of Sonic the Hedgehog by Sega](https://en.wikipedia.org/wiki/The_Murder_of_Sonic_the_Hedgehog).
 
