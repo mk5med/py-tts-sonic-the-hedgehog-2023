@@ -1,0 +1,7 @@
+opencv-python # Image operations
+pytesseract # OCR
+pillow # Image capture
+pyttsx3 # Text to speech
+black # Formatting
+pyautogui # Finding images on screen
+mypy # Add strict types to python
