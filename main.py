@@ -1,26 +1,58 @@
-import pyttsx3 as tts
 import re
 import time
-import pyautogui as pyg
+import typing
+import pyttsx3 as tts
+from src.sentenceIsChanging import sentenceIsChanging
 from src.getBoundingBox import getBoundingBox
 from src.getText import getText
+from src.debug import takeDebugScreenshot
 
 cleanRegex = re.compile("([A-Za-z\\d\\s&.,\"'\\n])+")
 
 
-def printHeader():
+def printReadyHeader():
+    """
+    Print a header that the user can continue playing the game
+    """
+
     print("-" * 20)
     print("Ready to go! Select 'NEW GAME' or 'CONTINUE'")
     print("-" * 20)
 
 
-def takeDebugScreenshot(fileName: str):
-    fileName += ".png"
-    pyg.screenshot().save(fileName)
-    print(f"Saved a debug screenshot to '{fileName}'")
+def trySpeakSentence(sentence: str, engine: tts.Engine):
+    if len(sentence) != 0:
+        print("Read: ", sentence)
+        engine.say(sentence)
+        engine.runAndWait()
+        engine.stop()
+    else:
+        print("No text read")
+
+
+def mainLoop(boundingBox: typing.Tuple[int, int, int, int], engine: tts.Engine):
+    """
+    Main processing loop for TTS
+    """
+    shouldSkipState = {"oldSentence": "", "sentenceIsStableCount": 0}
+
+    while True:
+        sentence = getText(boundingBox)
+        (_newState, skip) = sentenceIsChanging(shouldSkipState, sentence)
+        shouldSkipState = _newState
+
+        if skip:
+            continue
+
+        trySpeakSentence(sentence, engine)
+        time.sleep(2)
 
 
 def main():
+    """
+    Entry point
+    """
+
     # Get the location of the games text
     boundingBox = getBoundingBox()
 
@@ -34,42 +66,11 @@ def main():
 
         exit(1)
 
-    printHeader()
+    printReadyHeader()
+
     # Initialise the engine
     engine = tts.init()
-
-    oldSentence = ""
-    sentenceIsStableCount = 0
-
-    while True:
-        sentence = getText(boundingBox)
-        sentenceMatchesOld = oldSentence == sentence
-
-        # The sentence is changing
-        if not sentenceMatchesOld:
-            # Record the change
-            oldSentence = sentence
-            sentenceIsStableCount = 0
-            continue
-
-        sentenceIsStableCount += 1
-
-        # If sentenceIsStableCount is less than 2 the sentence is new and might change
-        # If sentenceIsStableCount is 3 the sentence will be read
-        # Otherwise the sentence has been read and will be skipped
-        if sentenceIsStableCount < 2 or sentenceIsStableCount != 3:
-            # Increment a flag
-            sentenceIsStableCount += 1
-            continue
-
-        if len(sentence) != 0:
-            print("Read: ", sentence)
-            engine.say(sentence)
-            engine.runAndWait()
-            engine.stop()
-        else:
-            print("No text read")
-        time.sleep(2)
+    mainLoop(boundingBox, engine)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,11 @@ opencv-python # Image operations
 pytesseract # OCR
 pillow # Image capture
 pyttsx3 # Text to speech
-black # Formatting
 pyautogui # Finding images on screen
+
+black # Formatting
 mypy # Add strict types to python
+types-Pillow # mypy types
+types-PyAutoGUI # mypy types
+pylint # Linting
+pytest

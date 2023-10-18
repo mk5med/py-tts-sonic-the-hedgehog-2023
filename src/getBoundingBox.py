@@ -1,8 +1,10 @@
 import cv2
 import pyautogui as pyg
+import math
+import typing
 
 
-def getBoundingBox():
+def getBoundingBox() -> typing.Union[typing.Tuple[int, int, int, int], None]:
     """
     Gets the bounding box of the text area for the game
     """
@@ -16,9 +18,9 @@ def getBoundingBox():
 
     if posInfo is not None:
         left = posInfo.left
-        right = left + posInfo.width * writableArea
+        right = left + math.floor(posInfo.width * writableArea)
         top = posInfo.top + posInfo.height // 4 * 3 + 80
         bottom = top + posInfo.height // 4 - 80
         return (left, top, right, bottom)
-    
+
     return None
