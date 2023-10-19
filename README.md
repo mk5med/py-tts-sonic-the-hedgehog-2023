@@ -1,5 +1,7 @@
 # py-tts-sonic-the-hedgehog-2023
 
+[![Python package](https://github.com/mk5med/py-tts-sonic-the-hedgehog-2023/actions/workflows/python-test.yml/badge.svg)](https://github.com/mk5med/py-tts-sonic-the-hedgehog-2023/actions/workflows/python-test.yml)
+
 This project provides a TTS layer for [The Murder of Sonic the Hedgehog by Sega](https://en.wikipedia.org/wiki/The_Murder_of_Sonic_the_Hedgehog).
 
 This app has been tested on Ubuntu 22.04
