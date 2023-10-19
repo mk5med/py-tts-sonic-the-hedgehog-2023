@@ -1,8 +1,18 @@
-def sentenceIsChanging(state, sentence: str):
+import typing
+
+
+class State(typing.TypedDict):
+    oldSentence: str
+    sentenceIsStableCount: int
+
+
+def canPlaySentence(state: State, sentence: str):
     """
     Detects if the incoming sentence is changing
 
-    Returns a new state and True/False if the sentence is changing
+    Returns a new state and True/False if the sentence can be played
+
+    `(newState, play)`
     """
 
     # Copy the object to remove the reference
@@ -15,7 +25,7 @@ def sentenceIsChanging(state, sentence: str):
         # Record the change
         state["oldSentence"] = sentence
         state["sentenceIsStableCount"] = 0
-        return (state, True)
+        return (state, False)
 
     state["sentenceIsStableCount"] += 1
 
@@ -24,7 +34,6 @@ def sentenceIsChanging(state, sentence: str):
     # Otherwise the sentence has been read and will be skipped
     if state["sentenceIsStableCount"] < 2 or state["sentenceIsStableCount"] != 3:
         # Increment a flag
-        state["sentenceIsStableCount"] += 1
-        return (state, True)
+        return (state, False)
 
-    return (state, False)
+    return (state, True)

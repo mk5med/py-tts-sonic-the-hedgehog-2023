@@ -2,7 +2,7 @@ import re
 import time
 import typing
 import pyttsx3 as tts
-from src.sentenceIsChanging import sentenceIsChanging
+from canPlaySentence import canPlaySentence
 from src.getBoundingBox import getBoundingBox
 from src.getText import getText
 from src.debug import takeDebugScreenshot
@@ -38,10 +38,10 @@ def mainLoop(boundingBox: typing.Tuple[int, int, int, int], engine: tts.Engine):
 
     while True:
         sentence = getText(boundingBox)
-        (_newState, skip) = sentenceIsChanging(shouldSkipState, sentence)
+        (_newState, play) = canPlaySentence(shouldSkipState, sentence)
         shouldSkipState = _newState
 
-        if skip:
+        if not play:
             continue
 
         trySpeakSentence(sentence, engine)
