@@ -10,3 +10,4 @@ types-Pillow # mypy types
 types-PyAutoGUI # mypy types
 pylint # Linting
 pytest
+flake8
